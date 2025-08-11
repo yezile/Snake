@@ -1,19 +1,12 @@
-//2024Äê4ÔÂ23ÈÕ14:35 ¿ªÊ¼ÖÆ×÷ 1.0.3
-//ÄêÔÂÈÕ: ÕıÊ½Íê½á 1.0.3
-/*
-¸½¼ş£º
-1.0.2¸üĞÂËµÃ÷.txt
-*/
-
 #include <bits/stdc++.h>
 #include <windows.h>
 #include <conio.h>
 using namespace std;
 
-//Õì²â¼üÅÌ
+//ä¾¦æµ‹é”®ç›˜
 #define KEYDOWN(VK_NONAME) ((GetAsyncKeyState(VK_NONAME) & 0x8000) ? 1:0)
 
-//³£¼ûÑÕÉ«£¨ÓĞ¸Ä¶¯£©
+//å¸¸è§é¢œè‰²ï¼ˆæœ‰æ”¹åŠ¨ï¼‰
 #define BLACK 0x000000
 #define WHITE 0xFFFFFF
 #define GREY 0x606A57
@@ -23,7 +16,7 @@ using namespace std;
 #define RED 0xEF2222
 #define PURPLE 0x9030EB
 
-//´úºÅ
+//ä»£å·
 #define NULL0 1001
 #define BODY 1002
 #define HEAD 1003
@@ -38,20 +31,20 @@ using namespace std;
 #define wasd 0
 #define next1 1
 
-//¼üÅÌ ËÄ¸ö·½Ïò
+//é”®ç›˜ å››ä¸ªæ–¹å‘
 int keya[4] = {'w', 'a', 's', 'd'};
 int keyb[4] = {24, 27, 25, 26};
 int keyc[4] = {'8', '4', '2', '6'};
 map<char, int>akey;
 
-//µ±Ç°²Ù×÷¡¢¼üÅÌ
+//å½“å‰æ“ä½œã€é”®ç›˜
 int key1, key2, key3;
 
 int nandu;
 
 int applex = 1, appley = 1;
 
-//·½Ïò
+//æ–¹å‘
 int dx[5] = {0, 0, -1, 1};
 int dy[5] = {1, -1, 0, 0};
 
@@ -59,26 +52,26 @@ int mode = 1;
 
 struct Position {
 	int x, y;
-	//¼ÇÂ¼Î»ÖÃ
+	//è®°å½•ä½ç½®
 };
 
 struct snack {
 
-	queue<Position>snackPosition;//ÉßµÄÎ»ÖÃ
-	Position head, neck; //Í·ºÍ²±×ÓµÄÎ»ÖÃ
-	double Xspeed, speed, Sspeed; //Éè¶¨ËÙ¶È¡¢µ±Ç°ËÙ¶È¡¢ÏÔÊ¾ËÙ¶È
-	int length;//³¤¶È
-	int remainingLength;//Ê£Óà³¤¶È
+	queue<Position>snackPosition;//è›‡çš„ä½ç½®
+	Position head, neck; //å¤´å’Œè„–å­çš„ä½ç½®
+	double Xspeed, speed, Sspeed; //è®¾å®šé€Ÿåº¦ã€å½“å‰é€Ÿåº¦ã€æ˜¾ç¤ºé€Ÿåº¦
+	int length;//é•¿åº¦
+	int remainingLength;//å‰©ä½™é•¿åº¦
 } player1, player2;
 
-//µØÍ¼Êı¾İ
+//åœ°å›¾æ•°æ®
 int a[100][100];
 
 int GameOver;
 
 int N, M;
 
-//ÉèÖÃËæ»úÖµ
+//è®¾ç½®éšæœºå€¼
 int random(int l, int r) {
 	int ans = 1;
 	int as = rand() % (r - l + 1) + l, bs = rand() % (r - l + 1) + l, cs = rand() % (r - l + 1) + l;
@@ -91,29 +84,29 @@ int random(int l, int r) {
 
 int win = 0;
 
-//³õÊ¼»¯
-void rgbInit(); //ANSIµÄº¯Êı
+//åˆå§‹åŒ–
+void rgbInit(); //ANSIçš„å‡½æ•°
 void init1();
 void init2();
 void init3();
-//»ù±¾¹¦ÄÜ
-void gotoxy(int x, int y); //Êä³öÎ»ÖÃ
-void rgbColor(int w, int b); //ÑÕÉ«ÉèÖÃ
-void pr(int w, int b, int x, int y); //Êä³öÑÕÉ«RGB¡¢Î»ÖÃ
-void pr(int w, int x, int y, string s); //¼òµ¥µÄ×Ö·û´®Êä³ö
-//ÓÎÏ·¹¦ÄÜ
-void keydownControl(int i); //¼üÅÌ¶ÁÈë
-void printCurrent(int x, int y, int z); //ĞŞ¸Ä·½¿é
-void printApple();     //Éú³ÉÆ»¹û
-void setNan(); //ÉèÖÃÄÑ¶È
+//åŸºæœ¬åŠŸèƒ½
+void gotoxy(int x, int y); //è¾“å‡ºä½ç½®
+void rgbColor(int w, int b); //é¢œè‰²è®¾ç½®
+void pr(int w, int b, int x, int y); //è¾“å‡ºé¢œè‰²RGBã€ä½ç½®
+void pr(int w, int x, int y, string s); //ç®€å•çš„å­—ç¬¦ä¸²è¾“å‡º
+//æ¸¸æˆåŠŸèƒ½
+void keydownControl(int i); //é”®ç›˜è¯»å…¥
+void printCurrent(int x, int y, int z); //ä¿®æ”¹æ–¹å—
+void printApple();     //ç”Ÿæˆè‹¹æœ
+void setNan(); //è®¾ç½®éš¾åº¦
 
-void runGame1();       //ÔËĞĞÓÎÏ·
-void runGame2();       //ÔËĞĞÓÎÏ·
+void runGame1();       //è¿è¡Œæ¸¸æˆ
+void runGame2();       //è¿è¡Œæ¸¸æˆ
 void runGame3();
-void restartGame();   //¿ªÊ¼ÓÎÏ·
-void pauseGame();     //ÔİÍ£ÓÎÏ·
-void endGame();       //½áÊøÓÎÏ·
-void advertisement(); //²¥·Å¹ã¸æ
+void restartGame();   //å¼€å§‹æ¸¸æˆ
+void pauseGame();     //æš‚åœæ¸¸æˆ
+void endGame();       //ç»“æŸæ¸¸æˆ
+void advertisement(); //æ’­æ”¾å¹¿å‘Š
 
 int game_;
 
@@ -131,7 +124,7 @@ int main() {
 			system("cls");
 			restartGame();
 
-			int result = MessageBox( NULL, TEXT("ÊÇ·ñ¿ªÊ¼ÓÎÏ· "), TEXT("Ì°³ÔÉß"), MB_ICONINFORMATION | MB_YESNO);
+			int result = MessageBox( NULL, TEXT("æ˜¯å¦å¼€å§‹æ¸¸æˆ "), TEXT("è´ªåƒè›‡"), MB_ICONINFORMATION | MB_YESNO);
 			if (result == IDNO) {
 				rgbColor(WHITE, BLACK);
 				system("cls");
@@ -148,7 +141,7 @@ int main() {
 		if (game_ == 6) {
 			rgbColor(WHITE, BLACK);
 			system("cls");
-			cout << "ÕıÔÚÍË³ö¡­¡­";
+			cout << "æ­£åœ¨é€€å‡ºâ€¦â€¦";
 			Sleep(random(20, 100));
 			return 0;
 		}
@@ -159,20 +152,20 @@ int main() {
 }
 //=========================================================
 //=========================================================
-//ANSIµÄº¯Êı
+//ANSIçš„å‡½æ•°
 void rgbInit() {
-	HANDLE hIn = GetStdHandle(STD_INPUT_HANDLE);//ÊäÈë¾ä±ú
-	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);//Êä³ö¾ä±ú
+	HANDLE hIn = GetStdHandle(STD_INPUT_HANDLE);//è¾“å…¥å¥æŸ„
+	HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);//è¾“å‡ºå¥æŸ„
 	DWORD dwInMode, dwOutMode;
-	GetConsoleMode(hIn, &dwInMode);//»ñÈ¡¿ØÖÆÌ¨ÊäÈëÄ£Ê½
-	GetConsoleMode(hOut, &dwOutMode);//»ñÈ¡¿ØÖÆÌ¨Êä³öÄ£Ê½
-	dwInMode |= 0x0200;//¸ü¸Ä
+	GetConsoleMode(hIn, &dwInMode);//è·å–æ§åˆ¶å°è¾“å…¥æ¨¡å¼
+	GetConsoleMode(hOut, &dwOutMode);//è·å–æ§åˆ¶å°è¾“å‡ºæ¨¡å¼
+	dwInMode |= 0x0200;//æ›´æ”¹
 	dwOutMode |= 0x0004;
-	SetConsoleMode(hIn, dwInMode);//ÉèÖÃ¿ØÖÆÌ¨ÊäÈëÄ£Ê½
-	SetConsoleMode(hOut, dwOutMode);//ÉèÖÃ¿ØÖÆÌ¨Êä³öÄ£Ê½
+	SetConsoleMode(hIn, dwInMode);//è®¾ç½®æ§åˆ¶å°è¾“å…¥æ¨¡å¼
+	SetConsoleMode(hOut, dwOutMode);//è®¾ç½®æ§åˆ¶å°è¾“å‡ºæ¨¡å¼
 }
 //---------------------------------------------------------
-//ÑÕÉ«ÉèÖÃ
+//é¢œè‰²è®¾ç½®
 void rgbColor(int w, int b) {
 	int wr = w / 0x10000;
 	int wg = w / 0x100 % 0x100;
@@ -183,7 +176,7 @@ void rgbColor(int w, int b) {
 	printf("\033[38;2;%d;%d;%dm\033[48;2;%d;%d;%dm", wr, wg, wb, br, bg, bb);
 }
 //---------------------------------------------------------
-//Êä³öÎ»ÖÃ
+//è¾“å‡ºä½ç½®
 void gotoXY(int x, int y) {
 	COORD  coord;
 	coord.X = x;
@@ -192,24 +185,24 @@ void gotoXY(int x, int y) {
 	SetConsoleCursorPosition(a, coord);
 }
 //---------------------------------------------------------
-//Êä³öÑÕÉ«RGB¡¢Î»ÖÃ
+//è¾“å‡ºé¢œè‰²RGBã€ä½ç½®
 void pr(int w, int b, int x, int y) {
 	rgbColor(w, b);
 	gotoXY(x, y);
 }
 //---------------------------------------------------------
-//¼òµ¥µÄ×Ö·û´®Êä³ö
+//ç®€å•çš„å­—ç¬¦ä¸²è¾“å‡º
 void pr(int w, int x, int y, string s) {
 	pr(w, BLACK, x, y);
 	cout << s;
 	pr(WHITE, BLACK, 0xffffff, 0xffffff);
 }
 //----------------------------------------------------------
-//³õÊ¼»¯
+//åˆå§‹åŒ–
 void init1() {
 
 
-	//ÒÆ³ı¿ìËÙ±à¼­Ä£Ê½
+	//ç§»é™¤å¿«é€Ÿç¼–è¾‘æ¨¡å¼
 	HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
 	DWORD mode;
 	GetConsoleMode(hStdin, &mode);
@@ -219,16 +212,16 @@ void init1() {
 
 	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_CURSOR_INFO CursorInfo;
-	GetConsoleCursorInfo(handle, &CursorInfo);//»ñÈ¡¿ØÖÆÌ¨¹â±êĞÅÏ¢
-	CursorInfo.bVisible = false; //Òş²Ø¿ØÖÆÌ¨¹â±ê
-	SetConsoleCursorInfo(handle, &CursorInfo);//ÉèÖÃ¿ØÖÆÌ¨¹â±ê×´Ì¬
-	CONSOLE_CURSOR_INFO cursorInfo = { 1, FALSE };  // ¹â±êĞÅÏ¢
+	GetConsoleCursorInfo(handle, &CursorInfo);//è·å–æ§åˆ¶å°å…‰æ ‡ä¿¡æ¯
+	CursorInfo.bVisible = false; //éšè—æ§åˆ¶å°å…‰æ ‡
+	SetConsoleCursorInfo(handle, &CursorInfo);//è®¾ç½®æ§åˆ¶å°å…‰æ ‡çŠ¶æ€
+	CONSOLE_CURSOR_INFO cursorInfo = { 1, FALSE };  // å…‰æ ‡ä¿¡æ¯
 	rgbInit();
-	SetConsoleTitleA("Ì°³ÔÉß");
+	SetConsoleTitleA("è´ªåƒè›‡");
 
 	HWND hwnd = GetForegroundWindow();
-	int cx = GetSystemMetrics(SM_CXSCREEN);//ĞèÒª¸ù¾İµçÄÔµÄ´óĞ¡ÉèÖÃ¼Ó¼õ
-	int cy = GetSystemMetrics(SM_CYSCREEN);//ĞèÒª¸ù¾İµçÄÔµÄ´óĞ¡ÉèÖÃ¼Ó¼õ
+	int cx = GetSystemMetrics(SM_CXSCREEN);//éœ€è¦æ ¹æ®ç”µè„‘çš„å¤§å°è®¾ç½®åŠ å‡
+	int cy = GetSystemMetrics(SM_CYSCREEN);//éœ€è¦æ ¹æ®ç”µè„‘çš„å¤§å°è®¾ç½®åŠ å‡
 	LONG_PTR last_style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	RECT last_rect;
 	GetWindowRect(hwnd, &last_rect);
@@ -238,7 +231,7 @@ void init1() {
 	UpdateWindow(hwnd);
 	srand(time(NULL) + time(0) - time(0) * 1.1 + rand());
 
-	//¼üÅÌ
+	//é”®ç›˜
 	akey['a'] = akey['A'] = akey[24] = akey['4'] = 2;
 	akey['w'] = akey['W'] = akey[27] = akey['8'] = 1;
 	akey['d'] = akey['D'] = akey[25] = akey['6'] = 3;
@@ -246,104 +239,104 @@ void init1() {
 
 }
 //---------------------------------------------------------
-//³õÊ¼»¯ 2
+//åˆå§‹åŒ– 2
 void init2() {
 
 
 	rgbColor(WHITE, BLACK);
 	gotoXY(1, 6);
-	cout << "Æ»¹ûÎ»ÖÃ£º";
+	cout << "è‹¹æœä½ç½®ï¼š";
 
 	if (mode == 1) {
 		gotoXY(3, 8);
-		cout << "Í·Î»ÖÃ£º";
+		cout << "å¤´ä½ç½®ï¼š";
 	}
 	if (mode == 2) {
 		gotoXY(1, 8);
-		cout << "Íæ¼Ò1ÉíÌå³¤¶È£º";
+		cout << "ç©å®¶1èº«ä½“é•¿åº¦ï¼š";
 		gotoXY(1, 10);
-		cout << "Íæ¼Ò2ÉíÌå³¤¶È£º";
+		cout << "ç©å®¶2èº«ä½“é•¿åº¦ï¼š";
 	} else if (mode == 1) {
 		gotoXY(1, 10);
-		cout << "ÉíÌå³¤¶È£º";
+		cout << "èº«ä½“é•¿åº¦ï¼š";
 	} else {
 		gotoXY(2, 8);
-		cout << "Íæ¼ÒÉíÌå³¤¶È£º";
+		cout << "ç©å®¶èº«ä½“é•¿åº¦ï¼š";
 		gotoXY(2, 10);
-		cout << "  AIÉíÌå³¤¶È£º";
+		cout << "  AIèº«ä½“é•¿åº¦ï¼š";
 	}
 	rgbColor(WHITE, BLACK);
 	gotoXY(1, 12);
-	cout << "ËÙ¶È£º " << player1.Sspeed;
+	cout << "é€Ÿåº¦ï¼š " << player1.Sspeed;
 
 	for (int i = 0; i <= N + 1; i++) {
 		for (int j = 0; j <= M + 1; j++) {
 			printCurrent(i, j, a[i][j]);
-			//·ÅÖÃ
+			//æ”¾ç½®
 		}
 	}
 	if (mode == 3) {
 		gotoXY(N * 2 + 35, 15);
-		printf("¡õÇĞ»»AI¼¶±ğ£º°´ 1 2 3 4 5 ÇĞ»»");
+		printf("â–¡åˆ‡æ¢AIçº§åˆ«ï¼šæŒ‰ 1 2 3 4 5 åˆ‡æ¢");
 		gotoXY(N * 2 + 35, 16);
-		printf("Èõ ¢Ù ¢Ú ¢Û ¢Ü ¢İ Ç¿");
+		printf("å¼± â‘  â‘¡ â‘¢ â‘£ â‘¤ å¼º");
 
 	}
 	if (mode == 1 || mode == 3) {
 		rgbColor(0x01FFFF, BLACK);
 
 		gotoXY(N * 2 + 33, 6);
-		printf("¡ö¿ØÖÆ£º");
+		printf("â– æ§åˆ¶ï¼š");
 		gotoXY(N * 2 + 35, 8);
-		printf("¡õÏò×óÒÆ¶¯£º¡û A 4");
+		printf("â–¡å‘å·¦ç§»åŠ¨ï¼šâ† A 4");
 		gotoXY(N * 2 + 35, 9);
-		printf("¡õÏòÓÒÒÆ¶¯£º¡ú D 6");
+		printf("â–¡å‘å³ç§»åŠ¨ï¼šâ†’ D 6");
 		gotoXY(N * 2 + 35, 10);
-		printf("¡õÏòÏÂÒÆ¶¯£º¡ı S 2");
+		printf("â–¡å‘ä¸‹ç§»åŠ¨ï¼šâ†“ S 2");
 		gotoXY(N * 2 + 35, 11);
-		printf("¡õÏòÉÏÒÆ¶¯£º¡ü W 8");
+		printf("â–¡å‘ä¸Šç§»åŠ¨ï¼šâ†‘ W 8");
 		gotoXY(N * 2 + 35, 12);
-		printf("¡õ¼Ó¿ìËÙ¶È£º¿Õ¸ñ¼ü");
+		printf("â–¡åŠ å¿«é€Ÿåº¦ï¼šç©ºæ ¼é”®");
 		gotoXY(N * 2 + 35, 13);
-		printf("¡õÔİÍ£ÓÎÏ·£º»Ø³µ¼ü Esc¼ü");
+		printf("â–¡æš‚åœæ¸¸æˆï¼šå›è½¦é”® Escé”®");
 	} else {
 		rgbColor(0x01FFFF, BLACK);
 		gotoXY(N * 2 + 33, 6 - 2);
-		printf("¡ö¿ØÖÆ£¨Íæ¼Ò1£©£º");
+		printf("â– æ§åˆ¶ï¼ˆç©å®¶1ï¼‰ï¼š");
 		gotoXY(N * 2 + 35, 8 - 2);
-		printf("¡õÏò×óÒÆ¶¯£ºA");
+		printf("â–¡å‘å·¦ç§»åŠ¨ï¼šA");
 		gotoXY(N * 2 + 35, 9 - 2);
-		printf("¡õÏòÓÒÒÆ¶¯£ºD");
+		printf("â–¡å‘å³ç§»åŠ¨ï¼šD");
 		gotoXY(N * 2 + 35, 10 - 2);
-		printf("¡õÏòÏÂÒÆ¶¯£ºS");
+		printf("â–¡å‘ä¸‹ç§»åŠ¨ï¼šS");
 		gotoXY(N * 2 + 35, 11 - 2);
-		printf("¡õÏòÉÏÒÆ¶¯£ºW");
+		printf("â–¡å‘ä¸Šç§»åŠ¨ï¼šW");
 //		gotoXY(N*2+35, 12-2);
-//		printf("¡õ¼Ó¿ìËÙ¶È£ºQ");
+//		printf("â–¡åŠ å¿«é€Ÿåº¦ï¼šQ");
 		gotoXY(N * 2 + 33, 14 - 2);
-		printf("¡ö¿ØÖÆ£¨Íæ¼Ò2£©£º");
+		printf("â– æ§åˆ¶ï¼ˆç©å®¶2ï¼‰ï¼š");
 		gotoXY(N * 2 + 35, 16 - 2);
-		printf("¡õÏò×óÒÆ¶¯£º¡û 4");
+		printf("â–¡å‘å·¦ç§»åŠ¨ï¼šâ† 4");
 		gotoXY(N * 2 + 35, 17 - 2);
-		printf("¡õÏòÓÒÒÆ¶¯£º¡ú 6");
+		printf("â–¡å‘å³ç§»åŠ¨ï¼šâ†’ 6");
 		gotoXY(N * 2 + 35, 18 - 2);
-		printf("¡õÏòÏÂÒÆ¶¯£º¡ı 2");
+		printf("â–¡å‘ä¸‹ç§»åŠ¨ï¼šâ†“ 2");
 		gotoXY(N * 2 + 35, 19 - 2);
-		printf("¡õÏòÉÏÒÆ¶¯£º¡ü 8");
+		printf("â–¡å‘ä¸Šç§»åŠ¨ï¼šâ†‘ 8");
 //		gotoXY(N*2+35, 20-2);
-//		printf("¡õ¼Ó¿ìËÙ¶È£ºP");
+//		printf("â–¡åŠ å¿«é€Ÿåº¦ï¼šP");
 		gotoXY(N * 2 + 35, 22 - 2);
-		printf("¡õÔİÍ£ÓÎÏ·£º»Ø³µ¼ü Esc¼ü");
+		printf("â–¡æš‚åœæ¸¸æˆï¼šå›è½¦é”® Escé”®");
 	}
 
 }
 //---------------------------------------------------------
-//³õÊ¼»¯ 3
+//åˆå§‹åŒ– 3
 void init3() {
 	rgbColor(WHITE, BLACK);
 	system("cls");
 	for (int i = 0; i <= max(N, M) + 1; i++) {
-		//Ç½
+		//å¢™
 		a[i][0] = a[0][i] = WALL;
 		a[N + 1][i] = a[i][M + 1] = WALL;
 	}
@@ -351,7 +344,7 @@ void init3() {
 	for (int i = 1; i <= N; i++) {
 		for (int j = 1; j <= M; j++) {
 			a[i][j] = NULL0;
-			//¿Õ
+			//ç©º
 		}
 	}
 	game_ = 0;
@@ -373,18 +366,18 @@ void init3() {
 		printCurrent(N / 3 * 2 + 1, M / 3 * 2 + 1, HEAD2);
 	}
 
-	//³õÊ¼ÉíÌå
+	//åˆå§‹èº«ä½“
 
 	key1 = 1;
 	key2 = 1;
 
 }
 //---------------------------------------------------------
-//¼üÅÌ¶ÁÈë
+//é”®ç›˜è¯»å…¥
 void getKey(int i) {
 	if (i == wasd) {
 		clock_t start, finish;
-		double totaltime;//¼ÆÊ±
+		double totaltime;//è®¡æ—¶
 		start = clock();
 		int a1 = 1, a2 = 1, a3 = 1, a0 = 1;
 		while (1) {
@@ -422,11 +415,11 @@ void getKey(int i) {
 					int ty2 = dy[key2] + ty1;
 					int nowa2 = a[tx2][ty2];
 					gotoXY(1, 16);
-					cout << "µ÷ÊÔ " << key2;
+					cout << "è°ƒè¯• " << key2;
 					if (nowa2 == BODY2 || nowa2 == BODY || nowa2 == NECK || nowa2 == WALL || nowa1 == BODY2 || nowa1 == BODY
 					        || nowa1 == NECK || nowa1 == WALL) {
 
-						string st[10] = {"", "", "×ó", "ÓÒ"};
+						string st[10] = {""ï¼Œ "", "å·¦", "å³"};
 
 						if (key2 == 1) {
 							a1 == 0;
@@ -449,10 +442,10 @@ void getKey(int i) {
 							else key2 = 1;
 						}
 					} else {
-						gotoXY(1, 16);
-						cout << "µ÷ÊÔ ÎŞ       ";
-						if (heng == 1 && key2 != 2 && (random(1, 2) == 1 || z == 0) && a3) key2 = 3;
-						else if (heng == -1 && key2 != 3 && (random(1, 2) == 1 || z == 0) && a2) key2 = 2;
+						gotoXY(1ï¼Œ 16);
+						cout << "è°ƒè¯• æ—        ";
+						if (heng == 1 && key2 != 2 && (random(1ï¼Œ 2) == 1 || z == 0) && a3) key2 = 3;
+						else if (heng == -1 && key2 != 3 && (random(1ï¼Œ 2) == 1 || z == 0) && a2) key2 = 2;
 						else if (z == 1 && a0) key2 = 0;
 						else if (z == -1 && a1) key2 = 1;
 						else 	key2 = (random(0, 10) == 3 ? random(0, 3) : key2);
@@ -460,7 +453,7 @@ void getKey(int i) {
 
 				}
 			}
-			if ((KEYDOWN(VK_SPACE)) && (mode == 1 || mode == 3)) player1.speed = 0; //¼ÓËÙ
+			if ((KEYDOWN(VK_SPACE)) && (mode == 1 || mode == 3)) player1.speed = 0; //åŠ é€Ÿ
 			else player1.speed = player1.Xspeed;
 			if (KEYDOWN(27) || KEYDOWN(VK_RETURN)) key1 = 5;
 			Sleep(15);
@@ -471,68 +464,72 @@ void getKey(int i) {
 	}
 }
 //---------------------------------------------------------
-//Éú³ÉÆ»¹û
+//ç”Ÿæˆè‹¹æœ
 void printApple() {
-
+	bool canPutApple=false; 
 	for (int i = 1; i <= N; i++) {
 		for (int j = 1; j <= M; j++) {
 			if (a[i][j] == NULL0) {
-				applex = 0;
+				canPutApple = true;
 				break;
 			}
 		}
-		if (applex == 0) break;
+		if (canPutApple) break;
 	}
-	if (applex) return ;
-	do {
-		if (random(1, 20) == 1) {
-			applex = random(1, N); //Ëæ»úÊı
-			appley = random(1, M);
-		} else {
-			applex = random(2, N - 1); //Ëæ»úÊı
-			appley = random(2, M - 1);
+	if (applex == false) return ;
+	
+	int random_maxNum=0x3f3f3f3f;
+	pair<int,int>random_maxId=make_pair(-1,-1);
+	for(int i=1;i<=N;i++){
+		for(int j=1;j<=M;j++){
+			if(a[i][j]==NULL0){
+				int random_nowNum=rand();
+				if(random_nowNum<random_maxNum){
+					random_maxNum=random_nowNum;
+					random_maxId=make_pair(i,j);
+				}
+			}
 		}
-		if (a[applex][appley] == NULL0) {
-			printCurrent(applex, appley, APPLE);
-			pr(RED, BLACK, 13, 6);
-			printf("¡ö(%d,%d)    ", applex, appley); //Æ»¹ûµÄÖÃÎ»
-			return ;
-		}
-	} while (a[applex][appley] != APPLE);
+	}	
+	applex=random_maxId.first;
+	appley=random_maxId.second;
+	printCurrent(applex, appley, APPLE);
+	pr(RED, BLACK, 13, 6);
+	printf("â– (%d,%d)    ", applex, appley);
 
 
 }
 //---------------------------------------------------------
-//ĞŞ¸Ä·½¿é
+//ä¿®æ”¹æ–¹å—
 void printCurrent(int x, int y, int z) {
 	x += 13, y += 2;
 	if (z == NECK) {
 		pr(0x10FF10, BLACK, x * 2, y);
-		printf("¡õ");
+		printf("â–¡");
 	}
 	if (z == NECK2) {
 		pr(YELLOW, BLACK, x * 2, y);
-		printf("¡õ");
+		printf("â–¡");
 	}
 	if (z == BODY) {
 		pr(BLUE, BLACK, x * 2, y);
-		printf("¡õ");
+		printf("â–¡");
 	}
 	if (z == BODY2) {
 		pr(0x7F8030, BLACK, x * 2, y);
-		printf("¡õ");
+		printf("â–¡");
 	}
 	if (z == HEAD) {
 		pr(GREEN, BLACK, x * 2, y);
-		printf("¡ö");
+		printf("â– ");
 	}
 	if (z == HEAD2) {
 		pr(YELLOW, BLACK, x * 2, y);
-		printf("¡ö");
+		printf("â– ");
 	}
 	if (z == APPLE) {
 		pr(RED, BLACK, x * 2, y);
-		printf("¡ö");
+		printf("â– ");
 	}
 	if (z == NULL0) {
 		pr(WHITE, BLACK, x * 2, y);
@@ -540,43 +537,43 @@ void printCurrent(int x, int y, int z) {
 	}
 	if (z == WALL) {
 		pr(WHITE, BLACK, x * 2, y);
-		printf("¡ö");
+		printf("â– ");
 	}
 	a[x - 13][y - 2] = z;
 }
 //---------------------------------------------------------
-//ÓÎÏ·ÔËĞĞ
+//æ¸¸æˆè¿è¡Œ
 void runGame1() {
 	rgbColor(WHITE, BLACK);
-	system("cls");//ÇåÆÁ
+	system("cls");//æ¸…å±
 	init3();
 	init2();
 //	N/2+1,M/3*2+1
-	player1.length = 0, player1.head.x = N / 2 + 1, player1.head.y = M / 3 * 2 + 1, player1.neck.x = N / 2 + 1,
-	player1.neck.y = M / 3 * 2;
+	player1.length = 0, player1.headã€‚x = N / 2 + 1, player1.head.y = M / 3 * 2 + 1, player1.neck.x = N / 2 + 1,
+	player1.neckã€‚y = M / 3 * 2;
 	player1.remainingLength = 2;
 	GameOver = 0;
 	int bj = 0;
-	printApple();//³õÊ¼Æ»¹û
+	printApple();//åˆå§‹è‹¹æœ
 	int sb = 2;
 	while (game_ != 5 && game_ != 3) {
 		bj++;
 		if (bj == 8) {
 			HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
 			CONSOLE_CURSOR_INFO CursorInfo;
-			GetConsoleCursorInfo(handle, &CursorInfo);//»ñÈ¡¿ØÖÆÌ¨¹â±êĞÅÏ¢
-			CursorInfo.bVisible = false; //Òş²Ø¿ØÖÆÌ¨¹â±ê
-			SetConsoleCursorInfo(handle, &CursorInfo);//ÉèÖÃ¿ØÖÆÌ¨¹â±ê×´Ì¬
-			CONSOLE_CURSOR_INFO cursorInfo = { 1, FALSE };  // ¹â±êĞÅÏ¢
+			GetConsoleCursorInfo(handle, &CursorInfo);//è·å–æ§åˆ¶å°å…‰æ ‡ä¿¡æ¯
+			CursorInfo.bVisible = false; //éšè—æ§åˆ¶å°å…‰æ ‡
+			SetConsoleCursorInfo(handle, &CursorInfo);//è®¾ç½®æ§åˆ¶å°å…‰æ ‡çŠ¶æ€
+			CONSOLE_CURSOR_INFO cursorInfo = { 1, FALSE };  // å…‰æ ‡ä¿¡æ¯
 			bj = 0;
 		}
 
 		if (game_ == 4) {
 			rgbColor(WHITE, BLACK);
-			system("cls");//ÇåÆÁ
+			system("cls");//æ¸…å±
 			init3();
 			init2();
-			printApple();//³õÊ¼Æ»¹û
+			printApple();//åˆå§‹è‹¹æœ
 //			N/2+1,M/3*2+1
 			sb = 2;
 			player1.length = 0, player1.head.x = N / 2 + 1, player1.head.y = M / 3 * 2 + 1, player1.neck.x = N / 2 + 1,
@@ -584,11 +581,11 @@ void runGame1() {
 			player1.remainingLength = 2;
 			continue;
 		}
-		int lastKey = key1; //ÉÏ´ÎµÄ²Ù×÷
+		int lastKey = key1; //ä¸Šæ¬¡çš„æ“ä½œ
 		if (sb) {
 			sb--;
 		} else {
-			getKey(wasd); //Õì²â¼üÅÌ
+			getKey(wasd); //ä¾¦æµ‹é”®ç›˜
 		}
 		if (key1 == 5) {
 			pauseGame();
@@ -598,31 +595,31 @@ void runGame1() {
 		if ((key1 == 1 && lastKey == 0) || (key1 == 0 && lastKey == 1) || (key1 == 2 && lastKey == 3) || (key1 == 3
 		        && lastKey == 2)) {
 			key1 = lastKey;
-			//Èç¹ûÊÇ·´·½Ïò£¬ÄÇÃ´×Ô¶¯ºöÂÔ
+			//å¦‚æœæ˜¯åæ–¹å‘ï¼Œé‚£ä¹ˆè‡ªåŠ¨å¿½ç•¥
 		}
-		int tx = dx[key1] + player1.head.x; //ÏÂÒ»¸ö·½Ïò
+		int tx = dx[key1] + player1.head.x; //ä¸‹ä¸€ä¸ªæ–¹å‘
 		int ty = dy[key1] + player1.head.y;
 		int nowa = a[tx][ty];
 		if (nowa == BODY || nowa == WALL) {
-			//ÅöÇ½»ò×²ÉíÌå
+			//ç¢°å¢™æˆ–æ’èº«ä½“
 			game_ = 5;
 			endGame();
 			if (game_ == 6) return ;
 			sb = 2;
-			printApple();//³õÊ¼Æ»¹û
+			printApple();//åˆå§‹è‹¹æœ
 			continue;
 
 		}
-		player1.snackPosition.push({tx, ty}); //ĞÂµÄÎ»ÖÃ
+		player1.snackPosition.push({tx, ty}); //æ–°çš„ä½ç½®
 
-		printCurrent(tx, ty, HEAD); //ĞÂµÄÍ·£¨Í·ĞÂµÄÎ»ÖÃ£©
-		printCurrent(player1.head.x, player1.head.y, NECK); //Í·Ô­À´µÄÎ»ÖÃ
-		printCurrent(player1.neck.x, player1.neck.y, BODY); //²±×ÓÔ­À´µÄÎ»ÖÃ
+		printCurrent(tx, ty, HEAD); //æ–°çš„å¤´ï¼ˆå¤´æ–°çš„ä½ç½®ï¼‰
+		printCurrent(player1.head.x, player1.head.y, NECK); //å¤´åŸæ¥çš„ä½ç½®
+		printCurrent(player1.neck.x, player1.neck.y, BODY); //è„–å­åŸæ¥çš„ä½ç½®
 		player1.neck.x = player1.head.x, player1.neck.y = player1.head.y;
 		player1.head.x = tx, player1.head.y = ty;
 
 		pr(GREEN, BLACK, 13, 8);
-		printf("¡ö(%d,%d)   ", tx, ty); //Í·µÄÎ»ÖÃ
+		printf("â– (%d,%d)   ", tx, ty); //å¤´çš„ä½ç½®
 		if (nowa != APPLE && player1.remainingLength == 0) {
 			gotoXY(3, 14);
 			rgbColor(WHITE, BLACK);
@@ -631,11 +628,11 @@ void runGame1() {
 			player1.snackPosition.pop();
 		} else {
 
-			player1.length++;//³¤¶ÈÔö¼Ó
+			player1.length++;//é•¿åº¦å¢åŠ 
 			if (player1.remainingLength != 0 && nowa != APPLE) {
 				player1.remainingLength--;
 				gotoXY(3, 14);
-				cout << "Ê£ÓàÉíÌå³¤¶È£º" << player1.remainingLength << "   ";
+				cout << "å‰©ä½™èº«ä½“é•¿åº¦ï¼š" << player1.remainingLength << "   ";
 			} else {
 				printApple();
 			}
@@ -647,10 +644,10 @@ void runGame1() {
 	return ;
 }
 //---------------------------------------------------------
-//ÓÎÏ·ÔËĞĞ
+//æ¸¸æˆè¿è¡Œ
 void runGame2() {
 	rgbColor(WHITE, BLACK);
-	system("cls");//ÇåÆÁ
+	system("cls");//æ¸…å±
 	init3();
 	init2();
 //	N/2+1,M/3*2+1
@@ -662,7 +659,7 @@ void runGame2() {
 	player2.remainingLength = 2;
 	GameOver = 0;
 	int bj = 0;
-	printApple();//³õÊ¼Æ»¹û
+	printApple();//åˆå§‹è‹¹æœ
 	int sb = 2;
 	rgbColor(BLUE, BLACK);
 	gotoXY(16, 8);
@@ -675,19 +672,19 @@ void runGame2() {
 		if (bj == 8) {
 			HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
 			CONSOLE_CURSOR_INFO CursorInfo;
-			GetConsoleCursorInfo(handle, &CursorInfo);//»ñÈ¡¿ØÖÆÌ¨¹â±êĞÅÏ¢
-			CursorInfo.bVisible = false; //Òş²Ø¿ØÖÆÌ¨¹â±ê
-			SetConsoleCursorInfo(handle, &CursorInfo);//ÉèÖÃ¿ØÖÆÌ¨¹â±ê×´Ì¬
-			CONSOLE_CURSOR_INFO cursorInfo = { 1, FALSE };  // ¹â±êĞÅÏ¢
+			GetConsoleCursorInfo(handle, &CursorInfo);//è·å–æ§åˆ¶å°å…‰æ ‡ä¿¡æ¯
+			CursorInfo.bVisible = false; //éšè—æ§åˆ¶å°å…‰æ ‡
+			SetConsoleCursorInfo(handle, &CursorInfo);//è®¾ç½®æ§åˆ¶å°å…‰æ ‡çŠ¶æ€
+			CONSOLE_CURSOR_INFO cursorInfo = { 1, FALSE };  // å…‰æ ‡ä¿¡æ¯
 			bj = 0;
 		}
 
 		if (game_ == 4) {
 			rgbColor(WHITE, BLACK);
-			system("cls");//ÇåÆÁ
+			system("cls");//æ¸…å±
 			init3();
 			init2();
-			printApple();//³õÊ¼Æ»¹û
+			printApple();//åˆå§‹è‹¹æœ
 //			N/2+1,M/3*2+1
 			player1.length = 0, player1.head.x = N / 3 + 1, player1.head.y = M / 3 * 2 + 1, player1.neck.x = N / 3 + 1,
 			player1.neck.y = M / 3 * 2;
@@ -699,12 +696,12 @@ void runGame2() {
 			continue;
 
 		}
-		int lastKey1 = key1; //ÉÏ´ÎµÄ²Ù×÷
-		int lastKey2 = key2; //ÉÏ´ÎµÄ²Ù×÷
+		int lastKey1 = key1; //ä¸Šæ¬¡çš„æ“ä½œ
+		int lastKey2 = key2; //ä¸Šæ¬¡çš„æ“ä½œ
 		if (sb) {
 			sb--;
 		} else {
-			getKey(wasd); //Õì²â¼üÅÌ
+			getKey(wasd); //ä¾¦æµ‹é”®ç›˜
 		}
 		if (key1 == 5) {
 			pauseGame();
@@ -714,105 +711,105 @@ void runGame2() {
 		if ((key1 == 1 && lastKey1 == 0) || (key1 == 0 && lastKey1 == 1) || (key1 == 2 && lastKey1 == 3) || (key1 == 3
 		        && lastKey1 == 2)) {
 			key1 = lastKey1;
-			//Èç¹ûÊÇ·´·½Ïò£¬ÄÇÃ´×Ô¶¯ºöÂÔ
+			//å¦‚æœæ˜¯åæ–¹å‘ï¼Œé‚£ä¹ˆè‡ªåŠ¨å¿½ç•¥
 		}
 		if ((key2 == 1 && lastKey2 == 0) || (key2 == 0 && lastKey2 == 1) || (key2 == 2 && lastKey2 == 3) || (key2 == 3
 		        && lastKey2 == 2)) {
 			key2 = lastKey2;
-			//Èç¹ûÊÇ·´·½Ïò£¬ÄÇÃ´×Ô¶¯ºöÂÔ
+			//å¦‚æœæ˜¯åæ–¹å‘ï¼Œé‚£ä¹ˆè‡ªåŠ¨å¿½ç•¥
 		}
-		int tx1 = dx[key1] + player1.head.x; //ÏÂÒ»¸ö·½Ïò
+		int tx1 = dx[key1] + player1.head.x; //ä¸‹ä¸€ä¸ªæ–¹å‘
 		int ty1 = dy[key1] + player1.head.y;
 		int nowa1 = a[tx1][ty1];
-		int tx2 = dx[key2] + player2.head.x; //ÏÂÒ»¸ö·½Ïò
+		int tx2 = dx[key2] + player2.head.x; //ä¸‹ä¸€ä¸ªæ–¹å‘
 		int ty2 = dy[key2] + player2.head.y;
 		int nowa2 = a[tx2][ty2];
 		if (nowa1 == BODY || 0 || nowa1 == BODY2 || nowa1 == NECK2 || nowa1 == WALL) {
 			win = ((nowa2 == BODY || 0 || nowa2 == BODY || nowa2 == NECK || nowa2 == WALL) ? 0 : 2);
-			//ÅöÇ½»ò×²ÉíÌå
+			//ç¢°å¢™æˆ–æ’èº«ä½“
 			game_ = 5;
 			endGame();
 			if (game_ == 6) return ;
 			sb = 2;
-			printApple();//³õÊ¼Æ»¹û
+			printApple();//åˆå§‹è‹¹æœ
 			continue;
 		}
 		if (nowa2 == BODY2 || 0 || nowa2 == BODY || nowa2 == NECK || nowa2 == WALL) {
 			win = 1;
-			//ÅöÇ½»ò×²ÉíÌå
+			//ç¢°å¢™æˆ–æ’èº«ä½“
 			game_ = 5;
 			endGame();
 			if (game_ == 6) return ;
 			sb = 2;
-			printApple();//³õÊ¼Æ»¹û
+			printApple();//åˆå§‹è‹¹æœ
 			continue;
 		}
 
-		player1.snackPosition.push({tx1, ty1}); //ĞÂµÄÎ»ÖÃ
-		player2.snackPosition.push({tx2, ty2}); //ĞÂµÄÎ»ÖÃ
+		player1.snackPosition.push({tx1, ty1}); //æ–°çš„ä½ç½®
+		player2.snackPosition.push({tx2, ty2}); //æ–°çš„ä½ç½®
 
-		printCurrent(tx1, ty1, HEAD); //ĞÂµÄÍ·£¨Í·ĞÂµÄÎ»ÖÃ£©
-		printCurrent(player1.head.x, player1.head.y, NECK); //Í·Ô­À´µÄÎ»ÖÃ
-		printCurrent(player1.neck.x, player1.neck.y, BODY); //²±×ÓÔ­À´µÄÎ»ÖÃ
+		printCurrent(tx1, ty1, HEAD); //æ–°çš„å¤´ï¼ˆå¤´æ–°çš„ä½ç½®ï¼‰
+		printCurrent(player1.head.x, player1.head.y, NECK); //å¤´åŸæ¥çš„ä½ç½®
+		printCurrent(player1.neck.x, player1.neck.y, BODY); //è„–å­åŸæ¥çš„ä½ç½®
 		player1.neck.x = player1.head.x, player1.neck.y = player1.head.y;
 		player1.head.x = tx1, player1.head.y = ty1;
 
-		printCurrent(tx2, ty2, HEAD2); //ĞÂµÄÍ·£¨Í·ĞÂµÄÎ»ÖÃ£©
-		printCurrent(player2.head.x, player2.head.y, NECK2); //Í·Ô­À´µÄÎ»ÖÃ
-		printCurrent(player2.neck.x, player2.neck.y, BODY2); //²±×ÓÔ­À´µÄÎ»ÖÃ
+		printCurrent(tx2, ty2, HEAD2); //æ–°çš„å¤´ï¼ˆå¤´æ–°çš„ä½ç½®ï¼‰
+		printCurrent(player2.head.x, player2.head.y, NECK2); //å¤´åŸæ¥çš„ä½ç½®
+		printCurrent(player2.neck.x, player2.neck.y, BODY2); //è„–å­åŸæ¥çš„ä½ç½®
 		player2.neck.x = player2.head.x, player2.neck.y = player2.head.y;
-		player2.head.x = tx2, player2.head.y = ty2;
+		player2.headã€‚x = tx2, player2.head.y = ty2;
 		if (tx1 == tx2 && ty1 == ty2 || nowa1 == HEAD2 || nowa2 == HEAD) {
 			win = 0;
 			game_ = 5;
 			endGame();
 			if (game_ == 6) return ;
 			sb = 2;
-			printApple();//³õÊ¼Æ»¹û
+			printApple();//åˆå§‹è‹¹æœ
 			continue;
 		}
 		if (nowa1 != APPLE && player1.remainingLength == 0) {
-			gotoXY(1, 14);
+			gotoXY(1ï¼Œ 14);
 			rgbColor(WHITE, BLACK);
 			cout << "                        ";
-			printCurrent(player1.snackPosition.front().x, player1.snackPosition.front().y, NULL0);
-			player1.snackPosition.pop();
+			printCurrent(player1.snackPosition.front()ã€‚x, player1.snackPosition.front()ã€‚y, NULL0);
+			player1.snackPositionã€‚pop();
 		} else {
 
-			player1.length++;//³¤¶ÈÔö¼Ó
+			player1.length++;//é•¿åº¦å¢åŠ 
 			if (player1.remainingLength != 0 && nowa1 != APPLE) {
 				player1.remainingLength--;
 				rgbColor(BLUE, BLACK);
-				gotoXY(1, 14);
-				cout << "Íæ¼Ò1Ê£ÓàÉíÌå³¤¶È£º" << player1.remainingLength << "   ";
+				gotoXY(1ï¼Œ 14);
+				cout << "ç©å®¶1å‰©ä½™èº«ä½“é•¿åº¦ï¼š" << player1.remainingLength << "   ";
 			} else {
 				printApple();
 			}
 			rgbColor(BLUE, BLACK);
-			gotoXY(16, 8);
+			gotoXY(16ï¼Œ 8);
 			cout << player1.length << "   ";
 		}
 		if (nowa2 != APPLE && player2.remainingLength == 0) {
-			gotoXY(1, 15);
+			gotoXY(1ï¼Œ 15);
 			rgbColor(WHITE, BLACK);
 			cout << "                        ";
-			printCurrent(player2.snackPosition.front().x, player2.snackPosition.front().y, NULL0);
-			player2.snackPosition.pop();
+			printCurrent(player2.snackPositionã€‚front().x, player2.snackPosition.front().y, NULL0);
+			player2.snackPositionã€‚pop();
 		} else {
 
-			player2.length++;//³¤¶ÈÔö¼Ó
+			player2.length++;//é•¿åº¦å¢åŠ 
 			if (player2.remainingLength != 0 && nowa2 != APPLE) {
 				player2.remainingLength--;
 				rgbColor(0x7F8030, BLACK);
-				gotoXY(1, 15);
-				cout << "Íæ¼Ò2Ê£ÓàÉíÌå³¤¶È£º" << player2.remainingLength << "   ";
+				gotoXY(1ï¼Œ 15);
+				cout << "ç©å®¶2å‰©ä½™èº«ä½“é•¿åº¦ï¼š" << player2.remainingLength << "   ";
 
 			} else {
 				printApple();
 			}
 
 			rgbColor(0x7F8030, BLACK);
-			gotoXY(16, 10);
+			gotoXY(16ï¼Œ 10);
 			cout << player2.length << "   ";
 		}
 	}
@@ -820,28 +817,28 @@ void runGame2() {
 	return ;
 }
 //---------------------------------------------------------
-//ÓÎÏ·ÔËĞĞ
+//æ¸¸æˆè¿è¡Œ
 void runGame3() {
 	rgbColor(WHITE, BLACK);
-	system("cls");//ÇåÆÁ
+	system("cls");//æ¸…å±
 	init3();
 	init2();
 //	N/2+1,M/3*2+1
-	player1.length = 0, player1.head.x = N / 3 + 1, player1.head.y = M / 3 * 2 + 1, player1.neck.x = N / 3 + 1,
+	player1.length = 0, player1.headã€‚x = N / 3 + 1, player1.head.y = M / 3 * 2 + 1, player1.neck.x = N / 3 + 1,
 	player1.neck.y = M / 3 * 2;
 	player1.remainingLength = 2;
-	player2.length = 0, player2.head.x = N / 3 * 2 + 1, player2.head.y = M / 3 * 2 + 1, player2.neck.x = N / 3 * 2 + 1,
+	player2.length = 0, player2.head.x = N / 3 * 2 + 1, player2.head.y = M / 3 * 2 + 1, player2.neckã€‚x = N / 3 * 2 + 1,
 	player2.neck.y = M / 3 * 2;
 	player2.remainingLength = 2;
 	GameOver = 0;
 	int bj = 0;
-	printApple();//³õÊ¼Æ»¹û
+	printApple();//åˆå§‹è‹¹æœ
 	int sb = 2;
 	rgbColor(BLUE, BLACK);
 	gotoXY(16, 8);
 	cout << player1.length << "   ";
 	rgbColor(0x7F8030, BLACK);
-	gotoXY(16, 10);
+	gotoXY(16ï¼Œ 10);
 	nandu = 1;
 	cout << player2.length << "   ";
 	while (game_ != 5 && game_ != 3) {
@@ -850,22 +847,22 @@ void runGame3() {
 		if (bj == 8) {
 			HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
 			CONSOLE_CURSOR_INFO CursorInfo;
-			GetConsoleCursorInfo(handle, &CursorInfo);//»ñÈ¡¿ØÖÆÌ¨¹â±êĞÅÏ¢
-			CursorInfo.bVisible = false; //Òş²Ø¿ØÖÆÌ¨¹â±ê
-			SetConsoleCursorInfo(handle, &CursorInfo);//ÉèÖÃ¿ØÖÆÌ¨¹â±ê×´Ì¬
-			CONSOLE_CURSOR_INFO cursorInfo = { 1, FALSE };  // ¹â±êĞÅÏ¢
+			GetConsoleCursorInfo(handle, &CursorInfo);//è·å–æ§åˆ¶å°å…‰æ ‡ä¿¡æ¯
+			CursorInfo.bVisible = false; //éšè—æ§åˆ¶å°å…‰æ ‡
+			SetConsoleCursorInfo(handle, &CursorInfo);//è®¾ç½®æ§åˆ¶å°å…‰æ ‡çŠ¶æ€
+			CONSOLE_CURSOR_INFO cursorInfo = { 1, FALSE };  // å…‰æ ‡ä¿¡æ¯
 			bj = 0;
 		}
 
 		if (game_ == 4) {
 			rgbColor(WHITE, BLACK);
-			system("cls");//ÇåÆÁ
+			system("cls");//æ¸…å±
 			init3();
 			init2();
-			printApple();//³õÊ¼Æ»¹û
+			printApple();//åˆå§‹è‹¹æœ
 //			N/2+1,M/3*2+1
-			player1.length = 0, player1.head.x = N / 3 + 1, player1.head.y = M / 3 * 2 + 1, player1.neck.x = N / 3 + 1,
-			player1.neck.y = M / 3 * 2;
+			player1.length = 0, player1.headã€‚x = N / 3 + 1, player1.head.y = M / 3 * 2 + 1, player1.neck.x = N / 3 + 1,
+			player1.neckã€‚y = M / 3 * 2;
 			player1.remainingLength = 2;
 			player2.length = 0, player2.head.x = N / 3 * 2 + 1, player2.head.y = M / 3 * 2 + 1, player2.neck.x = N / 3 * 2 + 1,
 			player2.neck.y = M / 3 * 2;
@@ -874,12 +871,12 @@ void runGame3() {
 			continue;
 
 		}
-		int lastKey1 = key1; //ÉÏ´ÎµÄ²Ù×÷
-		int lastKey2 = key2; //ÉÏ´ÎµÄ²Ù×÷
+		int lastKey1 = key1; //ä¸Šæ¬¡çš„æ“ä½œ
+		int lastKey2 = key2; //ä¸Šæ¬¡çš„æ“ä½œ
 		if (sb) {
 			sb--;
 		} else {
-			getKey(wasd); //Õì²â¼üÅÌ
+			getKey(wasd); //ä¾¦æµ‹é”®ç›˜
 		}
 		if (key1 == 5) {
 			pauseGame();
@@ -889,52 +886,52 @@ void runGame3() {
 		if ((key1 == 1 && lastKey1 == 0) || (key1 == 0 && lastKey1 == 1) || (key1 == 2 && lastKey1 == 3) || (key1 == 3
 		        && lastKey1 == 2)) {
 			key1 = lastKey1;
-			//Èç¹ûÊÇ·´·½Ïò£¬ÄÇÃ´×Ô¶¯ºöÂÔ
+			//å¦‚æœæ˜¯åæ–¹å‘ï¼Œé‚£ä¹ˆè‡ªåŠ¨å¿½ç•¥
 		}
 		if ((key2 == 1 && lastKey2 == 0) || (key2 == 0 && lastKey2 == 1) || (key2 == 2 && lastKey2 == 3) || (key2 == 3
 		        && lastKey2 == 2)) {
 			key2 = lastKey2;
-			//Èç¹ûÊÇ·´·½Ïò£¬ÄÇÃ´×Ô¶¯ºöÂÔ
+			//å¦‚æœæ˜¯åæ–¹å‘ï¼Œé‚£ä¹ˆè‡ªåŠ¨å¿½ç•¥
 		}
-		int tx1 = dx[key1] + player1.head.x; //ÏÂÒ»¸ö·½Ïò
+		int tx1 = dx[key1] + player1.head.x; //ä¸‹ä¸€ä¸ªæ–¹å‘
 		int ty1 = dy[key1] + player1.head.y;
 		int nowa1 = a[tx1][ty1];
-		int tx2 = dx[key2] + player2.head.x; //ÏÂÒ»¸ö·½Ïò
+		int tx2 = dx[key2] + player2.head.x; //ä¸‹ä¸€ä¸ªæ–¹å‘
 		int ty2 = dy[key2] + player2.head.y;
 		int nowa2 = a[tx2][ty2];
 		if (nowa1 == BODY || 0 || nowa1 == BODY2 || nowa1 == NECK2 || nowa1 == WALL) {
 			win = ((nowa2 == BODY || 0 || nowa2 == BODY || nowa2 == NECK || nowa2 == WALL) ? 0 : 2);
-			//ÅöÇ½»ò×²ÉíÌå
+			//ç¢°å¢™æˆ–æ’èº«ä½“
 			game_ = 5;
 			endGame();
 			if (game_ == 6) return ;
 			sb = 2;
-			printApple();//³õÊ¼Æ»¹û
+			printApple();//åˆå§‹è‹¹æœ
 			continue;
 		}
 		if (nowa2 == BODY2 || 0 || nowa2 == BODY || nowa2 == NECK || nowa2 == WALL) {
 			win = 1;
-			//ÅöÇ½»ò×²ÉíÌå
+			//ç¢°å¢™æˆ–æ’èº«ä½“
 			game_ = 5;
 			endGame();
 			if (game_ == 6) return ;
 			sb = 2;
-			printApple();//³õÊ¼Æ»¹û
+			printApple();//åˆå§‹è‹¹æœ
 			continue;
 		}
 
-		player1.snackPosition.push({tx1, ty1}); //ĞÂµÄÎ»ÖÃ
-		player2.snackPosition.push({tx2, ty2}); //ĞÂµÄÎ»ÖÃ
+		player1.snackPosition.push({tx1, ty1}); //æ–°çš„ä½ç½®
+		player2.snackPosition.push({tx2, ty2}); //æ–°çš„ä½ç½®
 
-		printCurrent(tx1, ty1, HEAD); //ĞÂµÄÍ·£¨Í·ĞÂµÄÎ»ÖÃ£©
-		printCurrent(player1.head.x, player1.head.y, NECK); //Í·Ô­À´µÄÎ»ÖÃ
-		printCurrent(player1.neck.x, player1.neck.y, BODY); //²±×ÓÔ­À´µÄÎ»ÖÃ
+		printCurrent(tx1, ty1, HEAD); //æ–°çš„å¤´ï¼ˆå¤´æ–°çš„ä½ç½®ï¼‰
+		printCurrent(player1.head.x, player1.head.y, NECK); //å¤´åŸæ¥çš„ä½ç½®
+		printCurrent(player1.neck.x, player1.neck.y, BODY); //è„–å­åŸæ¥çš„ä½ç½®
 		player1.neck.x = player1.head.x, player1.neck.y = player1.head.y;
 		player1.head.x = tx1, player1.head.y = ty1;
 
-		printCurrent(tx2, ty2, HEAD2); //ĞÂµÄÍ·£¨Í·ĞÂµÄÎ»ÖÃ£©
-		printCurrent(player2.head.x, player2.head.y, NECK2); //Í·Ô­À´µÄÎ»ÖÃ
-		printCurrent(player2.neck.x, player2.neck.y, BODY2); //²±×ÓÔ­À´µÄÎ»ÖÃ
+		printCurrent(tx2, ty2, HEAD2); //æ–°çš„å¤´ï¼ˆå¤´æ–°çš„ä½ç½®ï¼‰
+		printCurrent(player2.head.x, player2.head.y, NECK2); //å¤´åŸæ¥çš„ä½ç½®
+		printCurrent(player2.neck.x, player2.neck.y, BODY2); //è„–å­åŸæ¥çš„ä½ç½®
 		player2.neck.x = player2.head.x, player2.neck.y = player2.head.y;
 		player2.head.x = tx2, player2.head.y = ty2;
 		if (tx1 == tx2 && ty1 == ty2 || nowa1 == HEAD2 || nowa2 == HEAD) {
@@ -943,7 +940,7 @@ void runGame3() {
 			endGame();
 			if (game_ == 6) return ;
 			sb = 2;
-			printApple();//³õÊ¼Æ»¹û
+			printApple();//åˆå§‹è‹¹æœ
 			continue;
 		}
 		if (nowa1 != APPLE && player1.remainingLength == 0) {
@@ -954,12 +951,12 @@ void runGame3() {
 			player1.snackPosition.pop();
 		} else {
 
-			player1.length++;//³¤¶ÈÔö¼Ó
+			player1.length++;//é•¿åº¦å¢åŠ 
 			if (player1.remainingLength != 0 && nowa1 != APPLE) {
 				player1.remainingLength--;
 				rgbColor(BLUE, BLACK);
 				gotoXY(1, 14);
-				cout << "Íæ¼Ò1Ê£ÓàÉíÌå³¤¶È£º" << player1.remainingLength << "   ";
+				cout << "ç©å®¶1å‰©ä½™èº«ä½“é•¿åº¦ï¼š" << player1.remainingLength << "   ";
 			} else {
 				printApple();
 			}
@@ -975,19 +972,19 @@ void runGame3() {
 			player2.snackPosition.pop();
 		} else {
 
-			player2.length++;//³¤¶ÈÔö¼Ó
+			player2.length++;//é•¿åº¦å¢åŠ 
 			if (player2.remainingLength != 0 && nowa2 != APPLE) {
 				player2.remainingLength--;
 				rgbColor(0x7F8030, BLACK);
-				gotoXY(1, 15);
-				cout << "   AIÊ£ÓàÉíÌå³¤¶È£º" << player2.remainingLength << "   ";
+				gotoXY(1ï¼Œ 15);
+				cout << "   AIå‰©ä½™èº«ä½“é•¿åº¦ï¼š" << player2.remainingLength << "   ";
 
 			} else {
 				printApple();
 			}
 
 			rgbColor(0x7F8030, BLACK);
-			gotoXY(16, 10);
+			gotoXY(16ï¼Œ 10);
 			cout << player2.length << "   ";
 		}
 	}
@@ -995,39 +992,39 @@ void runGame3() {
 	return ;
 }
 //---------------------------------------------------------
-//¿ªÊ¼ÓÎÏ·
+//å¼€å§‹æ¸¸æˆ
 void restartGame() {
 	int tiSpeed = 80;
 
-	int xx[10] = {0, 23, 33, 51};
-	string text1[10] = {"", "1¡¾µ¥ÈË¡¿", "2¡¾Íæ¼Ò VS Íæ¼Ò¡¿", "3¡¾Íæ¼Ò VS AI¡¿"};
+	int xx[10] = {0ï¼Œ 23, 33, 51};
+	string text1[10] = {""ï¼Œ "1ã€å•äººã€‘", "2ã€ç©å®¶ VS ç©å®¶ã€‘", "3ã€ç©å®¶ VS AIã€‘"};
 	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_CURSOR_INFO CursorInfo;
-	GetConsoleCursorInfo(handle, &CursorInfo);//»ñÈ¡¿ØÖÆÌ¨¹â±êĞÅÏ¢
-	CursorInfo.bVisible = false; //Òş²Ø¿ØÖÆÌ¨¹â±ê
-	SetConsoleCursorInfo(handle, &CursorInfo);//ÉèÖÃ¿ØÖÆÌ¨¹â±ê×´Ì¬
-	CONSOLE_CURSOR_INFO cursorInfo = { 1, FALSE };  // ¹â±êĞÅÏ¢
+	GetConsoleCursorInfo(handle, &CursorInfo);//è·å–æ§åˆ¶å°å…‰æ ‡ä¿¡æ¯
+	CursorInfo.bVisible = false; //éšè—æ§åˆ¶å°å…‰æ ‡
+	SetConsoleCursorInfo(handle, &CursorInfo);//è®¾ç½®æ§åˆ¶å°å…‰æ ‡çŠ¶æ€
+	CONSOLE_CURSOR_INFO cursorInfo = { 1, FALSE };  // å…‰æ ‡ä¿¡æ¯
 	gotoXY(20, 3);
 	cout << "---=== = ";
 	rgbColor(YELLOW, BLACK);
-	cout << "Ì° ³Ô Éß";
+	cout << "è´ª åƒ è›‡";
 	rgbColor(WHITE, BLACK);
 	cout << " = ===---";
 	gotoXY(22, 6);
-	cout << "ËÙ¶È(0~100)£º80";
+	cout << "é€Ÿåº¦(0~100)ï¼š80";
 	gotoXY(22, 7);
 
-	cout << "(°´·½Ïò¼üµ÷½Ú)";
+	cout << "(æŒ‰æ–¹å‘é”®è°ƒèŠ‚)";
 	gotoXY(22, 8);
-	cout << "(ÉÏÏÂÎª¼Ó¼õ10)";
+	cout << "(ä¸Šä¸‹ä¸ºåŠ å‡10)";
 	gotoXY(22, 9);
-	cout << "(×óÓÒÎª¼Ó¼õ1)";
+	cout << "(å·¦å³ä¸ºåŠ å‡1)";
 	gotoXY(22, 11);
-	cout << "ÓÎÏ··½Ê½£º1¡¾µ¥ÈË¡¿|2¡¾Íæ¼Ò VS Íæ¼Ò¡¿|3¡¾Íæ¼Ò VS AI¡¿";
+	cout << "æ¸¸æˆæ–¹å¼ï¼š1ã€å•äººã€‘|2ã€ç©å®¶ VS ç©å®¶ã€‘|3ã€ç©å®¶ VS AIã€‘";
 	gotoXY(22, 12);
-	cout << "(°´ 1 2 3 ÇĞ»»)";
+	cout << "(æŒ‰ 1 2 3 åˆ‡æ¢)";
 	gotoXY(22, 15);
-	cout << "°´¿Õ¸ñ¼ü¿ªÊ¼ÓÎÏ·";
+	cout << "æŒ‰ç©ºæ ¼é”®å¼€å§‹æ¸¸æˆ";
 	int color_1 = YELLOW, hh = 1;
 	while (true) {
 		if (KEYDOWN(VK_SPACE)) break;
@@ -1048,7 +1045,7 @@ void restartGame() {
 
 		rgbColor(WHITE, BLACK);
 		gotoXY(22, 11);
-		cout << "ÓÎÏ··½Ê½£º1¡¾µ¥ÈË¡¿|2¡¾Íæ¼Ò VS Íæ¼Ò¡¿|3¡¾Íæ¼Ò VS AI¡¿";
+		cout << "æ¸¸æˆæ–¹å¼ï¼š1ã€å•äººã€‘|2ã€ç©å®¶ VS ç©å®¶ã€‘|3ã€ç©å®¶ VS AIã€‘";
 		gotoXY(xx[mode] + 9, 11);
 		rgbColor(YELLOW, BLACK);
 		cout << text1[mode];
@@ -1059,7 +1056,7 @@ void restartGame() {
 		gotoXY(29, 3);
 		rgbColor(color_1, BLACK);
 
-		cout << "Ì° ³Ô Éß";
+		cout << "è´ª åƒ è›‡";
 		color_1 += (random(0x00, 0x30) * 0x010000+random(0x00, 0x30) * 0x000100+random(0x00, 0x30) * 0x010000) * hh;
 		if (color_1 > 0xFFFFFF) {
 			hh = -1;
@@ -1074,28 +1071,28 @@ void restartGame() {
 	player2.Sspeed = tiSpeed;
 }
 //---------------------------------------------------------
-//ÉèÖÃÄÑ¶È
+//è®¾ç½®éš¾åº¦
 void setNan() {
 	gotoXY(N * 2 + 38, 16);
 	rgbColor(GREY, BLACK);
-	printf("¢Ù ¢Ú ¢Û ¢Ü ¢İ");
+	printf("â‘  â‘¡ â‘¢ â‘£ â‘¤");
 	gotoXY(N * 2 + 35 + nandu * 3, 16);
 	rgbColor(WHITE, BLACK);
-	string st[15] = {"¢Ù", "¢Ú", "¢Û", "¢Ü", "¢İ"};
+	string st[15] = {"â‘ ", "â‘¡", "â‘¢", "â‘£", "â‘¤"};
 	cout << st[nandu - 1];
 }
 //---------------------------------------------------------
-//ÔİÍ£ÓÎÏ·
+//æš‚åœæ¸¸æˆ
 void pauseGame() {
 	gotoXY(30, 5);
 	rgbColor(0xDFDFFA, 0x929292);
-	cout << " ÒÑÔİÍ£ÓÎÏ· ";
+	cout << " å·²æš‚åœæ¸¸æˆ ";
 	gotoXY(30, 7);
-	cout << "  Esc¼ü ¼ÌĞøÓÎÏ· ";
+	cout << "  Escé”® ç»§ç»­æ¸¸æˆ ";
 	gotoXY(30, 8);
-	cout << "  ¿Õ¸ñ¼ü ·µ»ØÖ÷Ò³ ";
+	cout << "  ç©ºæ ¼é”® è¿”å›ä¸»é¡µ ";
 	gotoXY(30, 9);
-	cout << "  »Ø³µ¼ü ÖØĞÂ¿ªÊ¼ ";
+	cout << "  å›è½¦é”® é‡æ–°å¼€å§‹ ";
 	while (KEYDOWN(VK_RETURN) || KEYDOWN(VK_ESCAPE));
 	while (1) {
 		if (KEYDOWN(27)) {
@@ -1106,7 +1103,7 @@ void pauseGame() {
 			return ;
 		}
 		if (KEYDOWN(VK_SPACE)) {
-			int result = MessageBox( NULL, TEXT("ÊÇ·ñ·µ»ØÖ÷Ò³"), TEXT("Ì°³ÔÉß ÌáÊ¾"), MB_ICONINFORMATION | MB_YESNO);
+			int result = MessageBox( NULL, TEXT("æ˜¯å¦è¿”å›ä¸»é¡µ"), TEXT("è´ªåƒè›‡ æç¤º"), MB_ICONINFORMATION | MB_YESNO);
 			while (KEYDOWN(VK_RETURN));
 			if (result == IDNO) continue;
 			rgbColor(WHITE, BLACK);
@@ -1116,7 +1113,7 @@ void pauseGame() {
 		}
 		if (KEYDOWN(VK_RETURN)) {
 
-			int result = MessageBox( NULL, TEXT("ÊÇ·ñÖØĞÂ¿ªÊ¼"), TEXT("Ì°³ÔÉß ÌáÊ¾"), MB_ICONINFORMATION | MB_YESNO);
+			int result = MessageBox( NULL, TEXT("æ˜¯å¦é‡æ–°å¼€å§‹"), TEXT("è´ªåƒè›‡ æç¤º"), MB_ICONINFORMATION | MB_YESNO);
 			while (KEYDOWN(VK_RETURN));
 			if (result == IDNO) continue;
 			rgbColor(WHITE, BLACK);
@@ -1136,7 +1133,7 @@ void pauseGame() {
 	}
 }
 //---------------------------------------------------------
-//½áÊøÓÎÏ·
+//ç»“æŸæ¸¸æˆ
 void endGame() {
 	gotoXY(30, 5);
 	rgbColor(0xDFDFFA, 0x929292);
@@ -1144,33 +1141,33 @@ void endGame() {
 		if ((mode == 1 && player1.length < N * M - 1) || (mode == 3 && win != 1)) {
 			cout << " Game Over ";
 		} else {
-			cout << " Ê¤Àû£¡ ";
+			cout << " èƒœåˆ©ï¼ ";
 		}
 	} else {
-		if (win == 0) cout << " Í¬¹éÓÚ¾¡ ";
-		else cout << " Íæ¼Ò" << win << "Ê¤Àû£¡";
+		if (win == 0) cout << " åŒå½’äºå°½ ";
+		else cout << " ç©å®¶" << win << "èƒœåˆ©ï¼";
 	}
 
 	while (KEYDOWN(VK_SPACE) || KEYDOWN(VK_ESCAPE));
 	gotoXY(30, 7);
-	cout << "  ¿Õ¸ñ¼ü ·µ»ØÖ÷Ò³ ";
+	cout << "  ç©ºæ ¼é”® è¿”å›ä¸»é¡µ ";
 	gotoXY(30, 8);
-	cout << "  »Ø³µ¼ü ÖØĞÂ¿ªÊ¼ ";
+	cout << "  å›è½¦é”® é‡æ–°å¼€å§‹ ";
 	gotoXY(30, 9);
 	if (player1.length != 299 && mode == 1) {
-		cout << "  P¼ü ¿´¹ã¸æ¸´»î ";
+		cout << "  Pé”® çœ‹å¹¿å‘Šå¤æ´» ";
 		gotoXY(30, 10);
 	}
 	if (mode == 2) {
 
-		cout << "  P¼ü ÖØĞÂ¿ªÊ¼£¨±£ÁôÊ¤ÀûÍæ¼Ò³¤¶È£©";
+		cout << "  Pé”® é‡æ–°å¼€å§‹ï¼ˆä¿ç•™èƒœåˆ©ç©å®¶é•¿åº¦ï¼‰";
 		gotoXY(30, 10);
 	}
 	rgbColor(0xAAAA22, 0x929292);
-	cout << "  Esc¼ü ÍË³öÓÎÏ· ";
+	cout << "  Escé”® é€€å‡ºæ¸¸æˆ ";
 	while (1) {
 		if (KEYDOWN(VK_SPACE)) {
-			int result = MessageBox( NULL, TEXT("ÊÇ·ñ·µ»ØÖ÷Ò³"), TEXT("Ì°³ÔÉß ÌáÊ¾"), MB_ICONINFORMATION | MB_YESNO);
+			int result = MessageBox( NULL, TEXT("æ˜¯å¦è¿”å›ä¸»é¡µ"), TEXT("è´ªåƒè›‡ æç¤º"), MB_ICONINFORMATION | MB_YESNO);
 			while (KEYDOWN(VK_RETURN));
 			if (result == IDNO) continue;
 			game_ = 5;
@@ -1206,7 +1203,7 @@ void endGame() {
 			return ;
 		}
 		if (KEYDOWN(VK_RETURN)) {
-			int result = MessageBox( NULL, TEXT("ÊÇ·ñÖØĞÂ¿ªÊ¼"), TEXT("Ì°³ÔÉß ÌáÊ¾"), MB_ICONINFORMATION | MB_YESNO);
+			int result = MessageBox( NULL, TEXT("æ˜¯å¦é‡æ–°å¼€å§‹"), TEXT("è´ªåƒè›‡ æç¤º"), MB_ICONINFORMATION | MB_YESNO);
 			while (KEYDOWN(VK_RETURN));
 			if (result == IDNO) continue;
 			rgbColor(WHITE, BLACK);
@@ -1215,7 +1212,7 @@ void endGame() {
 			return ;
 		}
 		if (KEYDOWN(27)) {
-			int result = MessageBox( NULL, TEXT("ÊÇ·ñÍË³ö"), TEXT("Ì°³ÔÉß ÌáÊ¾"), MB_ICONINFORMATION | MB_YESNO);
+			int result = MessageBox( NULLï¼Œ TEXT("æ˜¯å¦é€€å‡º")ï¼Œ TEXT("è´ªåƒè›‡ æç¤º"), MB_ICONINFORMATION | MB_YESNO);
 			while (KEYDOWN(27));
 			if (result == IDNO) continue;
 			rgbColor(WHITE, BLACK);
@@ -1227,22 +1224,22 @@ void endGame() {
 	}
 }
 //---------------------------------------------------------
-//²¥·Å¹ã¸æ
+//æ’­æ”¾å¹¿å‘Š
 void advertisement() {
 	rgbColor(WHITE, BLACK);
 	system("cls");
 	GameOver++;
 	clock_t start, finish;
-	double totaltime = 0; //¼ÆÊ±
+	double totaltime = 0; //è®¡æ—¶
 	start = clock();
 	while (1) {
 		rgbColor(WHITE, BLACK);
 		cout << "                                                                   ";
-		gotoXY(0, 0);
-		printf("¹ã¸æ Ê£Óà%dÃë  ", (int)(3 * (GameOver + 2) - totaltime));
-		gotoXY(1, random(1, 10));
-		rgbColor(random(0x666666, 0xFFFFFF), BLACK);
-		cout << "ÄãºÃ¡ª¡ª";
+		gotoXY(0ï¼Œ 0);
+		printf("å¹¿å‘Š å‰©ä½™%dç§’  "ï¼Œ (int)(3 * (GameOver + 2) - totaltime));
+		gotoXY(1ï¼Œ random(1ï¼Œ 10));
+		rgbColor(random(0x666666ï¼Œ 0xFFFFFF), BLACK);
+		cout << "ä½ å¥½â€”â€”";
 
 
 		Sleep(200);
@@ -1251,8 +1248,8 @@ void advertisement() {
 		if (totaltime >= 0 * (GameOver + 2)) {
 //			system("start https://www.luogu.com.cn/user/1061745");
 //			if(player1.Sspeed<60&&player1.length+player1.remainingLength==2) system("start https://netcut.cn/p/c7f40b836eceeeaa");
-			gotoXY(0, 0);
-			cout << "»Ø³µ¼ü ¼ÌĞøÓÎÏ·      ";
+			gotoXY(0ï¼Œ 0);
+			cout << "å›è½¦é”® ç»§ç»­æ¸¸æˆ      ";
 			while (1) {
 				if (KEYDOWN(VK_RETURN)) {
 					while (KEYDOWN(VK_RETURN));
