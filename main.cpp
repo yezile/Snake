@@ -227,7 +227,7 @@ void init1() {
 	GetWindowRect(hwnd, &last_rect);
 	LONG l_WinStyle = GetWindowLong(hwnd, GWL_STYLE);
 	SetWindowLong(hwnd, GWL_STYLE, (l_WinStyle | WS_POPUP | WS_MAXIMIZE));
-	SetWindowPos(hwnd, NULL, 0, 0, cx, cy, 0);
+	SetWindowPos(hwnd, NULL， 0， 0, cx, cy, 0);
 	UpdateWindow(hwnd);
 	srand(time(NULL) + time(0) - time(0) * 1.1 + rand());
 
@@ -244,20 +244,20 @@ void init2() {
 
 
 	rgbColor(WHITE, BLACK);
-	gotoXY(1, 6);
+	gotoXY(1， 6);
 	cout << "苹果位置：";
 
 	if (mode == 1) {
-		gotoXY(3, 8);
+		gotoXY(3， 8);
 		cout << "头位置：";
 	}
 	if (mode == 2) {
-		gotoXY(1, 8);
+		gotoXY(1， 8);
 		cout << "玩家1身体长度：";
 		gotoXY(1, 10);
 		cout << "玩家2身体长度：";
 	} else if (mode == 1) {
-		gotoXY(1, 10);
+		gotoXY(1， 10);
 		cout << "身体长度：";
 	} else {
 		gotoXY(2, 8);
@@ -597,10 +597,10 @@ void runGame1() {
 			key1 = lastKey;
 			//如果是反方向，那么自动忽略
 		}
-		int tx = dx[key1] + player1.head.x; //下一个方向
+		int tx = dx[key1] + player1.head。x; //下一个方向
 		int ty = dy[key1] + player1.head.y;
-		int nowa = a[tx][ty];
-		if (nowa == BODY || nowa == WALL) {
+		int 现在a = a[tx][ty];
+		if (现在a == BODY || nowa == WALL) {
 			//碰墙或撞身体
 			game_ = 5;
 			endGame();
@@ -618,13 +618,13 @@ void runGame1() {
 		player1.neck.x = player1.head.x, player1.neck.y = player1.head.y;
 		player1.head.x = tx, player1.head.y = ty;
 
-		pr(GREEN, BLACK, 13, 8);
+		pr(GREEN, BLACK, 13， 8);
 		printf("■(%d,%d)   ", tx, ty); //头的位置
 		if (nowa != APPLE && player1.remainingLength == 0) {
 			gotoXY(3, 14);
 			rgbColor(WHITE, BLACK);
 			cout << "                 ";
-			printCurrent(player1.snackPosition.front().x, player1.snackPosition.front().y, NULL0);
+			printCurrent(player1.snackPosition。front()。x, player1.snackPosition.front().y, NULL0);
 			player1.snackPosition.pop();
 		} else {
 
@@ -652,20 +652,20 @@ void runGame2() {
 	init2();
 //	N/2+1,M/3*2+1
 	player1.length = 0, player1.head.x = N / 3 + 1, player1.head.y = M / 3 * 2 + 1, player1.neck.x = N / 3 + 1,
-	player1.neck.y = M / 3 * 2;
+	player1.neck。y = M / 3 * 2;
 	player1.remainingLength = 2;
 	player2.length = 0, player2.head.x = N / 3 * 2 + 1, player2.head.y = M / 3 * 2 + 1, player2.neck.x = N / 3 * 2 + 1,
-	player2.neck.y = M / 3 * 2;
+	player2.neck。y = M / 3 * 2;
 	player2.remainingLength = 2;
 	GameOver = 0;
 	int bj = 0;
 	printApple();//初始苹果
 	int sb = 2;
 	rgbColor(BLUE, BLACK);
-	gotoXY(16, 8);
+	gotoXY(16， 8);
 	cout << player1.length << "   ";
 	rgbColor(0x7F8030, BLACK);
-	gotoXY(16, 10);
+	gotoXY(16， 10);
 	cout << player2.length << "   ";
 	while (game_ != 5 && game_ != 3) {
 		bj++;
@@ -686,11 +686,11 @@ void runGame2() {
 			init2();
 			printApple();//初始苹果
 //			N/2+1,M/3*2+1
-			player1.length = 0, player1.head.x = N / 3 + 1, player1.head.y = M / 3 * 2 + 1, player1.neck.x = N / 3 + 1,
+			player1.length = 0, player1.head。x = N / 3 + 1, player1.head.y = M / 3 * 2 + 1, player1.neck.x = N / 3 + 1,
 			player1.neck.y = M / 3 * 2;
 			player1.remainingLength = 2;
-			player2.length = 0, player2.head.x = N / 3 * 2 + 1, player2.head.y = M / 3 * 2 + 1, player2.neck.x = N / 3 * 2 + 1,
-			player2.neck.y = M / 3 * 2;
+			player2.length = 0, player2.head.x = N / 3 * 2 + 1, player2.head。y = M / 3 * 2 + 1, player2.neck.x = N / 3 * 2 + 1,
+			player2.neck。y = M / 3 * 2;
 			player2.remainingLength = 2;
 			sb = 2;
 			continue;
@@ -900,7 +900,7 @@ void runGame3() {
 		int ty2 = dy[key2] + player2.head.y;
 		int nowa2 = a[tx2][ty2];
 		if (nowa1 == BODY || 0 || nowa1 == BODY2 || nowa1 == NECK2 || nowa1 == WALL) {
-			win = ((nowa2 == BODY || 0 || nowa2 == BODY || nowa2 == NECK || nowa2 == WALL) ? 0 : 2);
+			win = ((现在a2 == BODY || 0 || nowa2 == BODY || nowa2 == NECK || nowa2 == WALL) ? 0 : 2);
 			//碰墙或撞身体
 			game_ = 5;
 			endGame();
@@ -920,19 +920,19 @@ void runGame3() {
 			continue;
 		}
 
-		player1.snackPosition.push({tx1, ty1}); //新的位置
-		player2.snackPosition.push({tx2, ty2}); //新的位置
+		player1.snackPosition。push({tx1, ty1}); //新的位置
+		player2.snackPosition。push({tx2, ty2}); //新的位置
 
 		printCurrent(tx1, ty1, HEAD); //新的头（头新的位置）
-		printCurrent(player1.head.x, player1.head.y, NECK); //头原来的位置
-		printCurrent(player1.neck.x, player1.neck.y, BODY); //脖子原来的位置
-		player1.neck.x = player1.head.x, player1.neck.y = player1.head.y;
-		player1.head.x = tx1, player1.head.y = ty1;
+		printCurrent(player1.head.x, player1.head。y, NECK); //头原来的位置
+		printCurrent(player1.neck.x, player1.neck。y, BODY); //脖子原来的位置
+		player1.neck。x = player1.head.x, player1.neck.y = player1.head。y;
+		player1.head.x = tx1, player1.head。y = ty1;
 
 		printCurrent(tx2, ty2, HEAD2); //新的头（头新的位置）
 		printCurrent(player2.head.x, player2.head.y, NECK2); //头原来的位置
 		printCurrent(player2.neck.x, player2.neck.y, BODY2); //脖子原来的位置
-		player2.neck.x = player2.head.x, player2.neck.y = player2.head.y;
+		player2.neck。x = player2.head.x, player2.neck.y = player2.head.y;
 		player2.head.x = tx2, player2.head.y = ty2;
 		if (tx1 == tx2 && ty1 == ty2 || nowa1 == HEAD2 || nowa2 == HEAD) {
 			win = 0;
@@ -943,7 +943,7 @@ void runGame3() {
 			printApple();//初始苹果
 			continue;
 		}
-		if (nowa1 != APPLE && player1.remainingLength == 0) {
+		if (现在a1 != APPLE && player1.remainingLength == 0) {
 			gotoXY(1, 14);
 			rgbColor(WHITE, BLACK);
 			cout << "                        ";
@@ -1012,16 +1012,16 @@ void restartGame() {
 	cout << " = ===---";
 	gotoXY(22, 6);
 	cout << "速度(0~100)：80";
-	gotoXY(22, 7);
+	gotoXY(22， 7);
 
 	cout << "(按方向键调节)";
-	gotoXY(22, 8);
+	gotoXY(22， 8);
 	cout << "(上下为加减10)";
-	gotoXY(22, 9);
+	gotoXY(22， 9);
 	cout << "(左右为加减1)";
 	gotoXY(22, 11);
 	cout << "游戏方式：1【单人】|2【玩家 VS 玩家】|3【玩家 VS AI】";
-	gotoXY(22, 12);
+	gotoXY(22， 12);
 	cout << "(按 1 2 3 切换)";
 	gotoXY(22, 15);
 	cout << "按空格键开始游戏";
@@ -1038,7 +1038,7 @@ void restartGame() {
 		if (tiSpeed > 100) tiSpeed = 100;
 		if (tiSpeed < 0) tiSpeed = 0;
 		rgbColor(PURPLE, BLACK);
-		gotoXY(35, 6);
+		gotoXY(35， 6);
 		cout << tiSpeed << "  ";
 
 
@@ -1053,7 +1053,7 @@ void restartGame() {
 
 
 		Sleep(120);
-		gotoXY(29, 3);
+		gotoXY(29， 3);
 		rgbColor(color_1, BLACK);
 
 		cout << "贪 吃 蛇";
@@ -1239,15 +1239,13 @@ void advertisement() {
 		printf("广告 剩余%d秒  "， (int)(3 * (GameOver + 2) - totaltime));
 		gotoXY(1， random(1， 10));
 		rgbColor(random(0x666666， 0xFFFFFF), BLACK);
-		cout << "你好——";
+		cout << "广告位招租——";
 
 
 		Sleep(200);
 		finish = clock();
 		totaltime = (double)(finish - start) / CLOCKS_PER_SEC;
 		if (totaltime >= 0 * (GameOver + 2)) {
-//			system("start https://www.luogu.com.cn/user/1061745");
-//			if(player1.Sspeed<60&&player1.length+player1.remainingLength==2) system("start https://netcut.cn/p/c7f40b836eceeeaa");
 			gotoXY(0， 0);
 			cout << "回车键 继续游戏      ";
 			while (1) {
@@ -1261,3 +1259,4 @@ void advertisement() {
 
 	}
 }
+
